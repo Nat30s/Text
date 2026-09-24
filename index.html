@@ -11,11 +11,11 @@
   * { font-family: 'Inter', sans-serif; }
   body { background:#f3f4f6; }
   .navbar { background:#fff; border-bottom:1px solid #e5e7eb; }
-  .btn-primary { background:#111827; color:#fff; }
-  .btn-primary:hover { background:#000; }
+  .topbtn { padding:7px 14px; border-radius:8px; font-size:13px; font-weight:500; border:1px solid #e5e7eb; background:#fff; color:#374151; cursor:pointer; }
+  .topbtn:hover { background:#f9fafb; }
   textarea { font-family: 'ui-monospace', 'SFMono-Regular', Menlo, monospace; }
   textarea:focus { outline:none; }
-  #boxWrapper { position: relative; max-width: 100%; }
+  #boxWrapper { position: relative; width:100%; max-width:100%; margin:0 auto; }
   #widthHandle {
     position: absolute; top: 0; right: -6px; width: 12px; height: 100%;
     cursor: ew-resize; z-index: 10;
@@ -33,48 +33,47 @@
     content: ''; width: 40px; height: 4px; background: #d1d5db; border-radius: 4px;
   }
   #heightHandle:hover::after { background: #9ca3af; }
-  #inputBox { overflow-y: hidden; }
-
+  #inputBox { overflow-y: auto; }
 </style>
 </head>
 <body>
 
-<nav class="navbar" style="padding:14px 24px; display:flex; align-items:center; gap:8px;">
-  <div style="width:32px;height:32px;border-radius:8px;background:#111827;display:flex;align-items:center;justify-content:center;">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
+<nav class="navbar" style="padding:14px 24px; display:flex; align-items:center; justify-content:space-between;">
+  <div style="display:flex; align-items:center; gap:8px;">
+    <div style="width:32px;height:32px;border-radius:8px;background:#111827;display:flex;align-items:center;justify-content:center;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
+    </div>
+    <span style="font-weight:700; font-size:18px; color:#111827;">Text Cleaner</span>
   </div>
-  <span style="font-weight:700; font-size:18px; color:#111827;">Text Cleaner</span>
+  <div style="display:flex; gap:8px;">
+    <button class="topbtn" onclick="resetLayout()">Reset Size</button>
+    <button class="topbtn" onclick="clearBox()">Clear Text</button>
+  </div>
 </nav>
 
-<main style="max-width:1000px; margin:0 auto; padding:48px 24px;">
+<main style="max-width:min(1400px, 92vw); margin:0 auto; padding:48px 24px;">
   <h1 style="font-size:32px; font-weight:700; color:#111827; margin-bottom:8px;">Strip HTML &amp; Clean Text</h1>
-  <p style="color:#6b7280; margin-bottom:28px;">Paste content below, and hit the button.</p>
+  <p style="color:#6b7280; margin-bottom:28px;">Paste content below — HTML tags are stripped automatically.</p>
 
-  <div id="boxWrapper" style="background:#fff; border:1px solid #e5e7eb; border-radius:16px; width:100%;">
+  <div id="boxWrapper" style="background:#fff; border:1px solid #e5e7eb; border-radius:16px;">
     <div id="widthHandle"></div>
 
     <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-bottom:1px solid #f1f1f1;">
       <span style="font-weight:600; font-size:14px; color:#111827;">Paste your text or HTML here</span>
-      <span style="font-size:12px; color:#9ca3af;">Drag the right edge to resize width &middot; auto-saved</span>
+      <span style="font-size:12px; color:#9ca3af;">Drag right edge to resize width &middot; auto-saved</span>
     </div>
 
-    <textarea id="inputBox" rows="14" placeholder="Paste your content here..."
-      style="width:100%; padding:16px; font-size:14px; color:#111827; border:none; resize:none; display:block;"></textarea>
+    <textarea id="inputBox" placeholder="Paste your content here..."
+      style="width:100%; height:420px; padding:16px; font-size:14px; color:#111827; border:none; resize:none; display:block;"></textarea>
 
-    <div id="heightHandle" title="Drag to resize height (auto-grows by default)"></div>
+    <div id="heightHandle" title="Drag to resize height"></div>
 
     <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-top:1px solid #f1f1f1; background:#fafafa;">
-      <div style="display:flex; align-items:center; gap:16px;">
-        <label style="display:flex; align-items:center; gap:6px; font-size:14px; color:#374151; cursor:pointer;">
-          <input type="checkbox" id="keepBreaks" style="accent-color:#111827; width:16px; height:16px;">
-          Keep line breaks
-        </label>
-        <span id="charCount" style="font-size:13px; color:#9ca3af;">0 of 20,000 characters</span>
-      </div>
-      <div style="display:flex; gap:8px;">
-        <button onclick="clearBox()" style="padding:8px 16px; border-radius:10px; border:1px solid #e5e7eb; background:#fff; color:#374151; font-size:14px; font-weight:500;">Clear</button>
-        <button onclick="stripHTML()" class="btn-primary" style="padding:8px 16px; border-radius:10px; font-size:14px; font-weight:600;">Strip HTML</button>
-      </div>
+      <label style="display:flex; align-items:center; gap:6px; font-size:14px; color:#374151; cursor:pointer;">
+        <input type="checkbox" id="keepBreaks" style="accent-color:#111827; width:16px; height:16px;">
+        Keep line breaks
+      </label>
+      <span id="charCount" style="font-size:13px; color:#9ca3af;">0 of 50,000 characters</span>
     </div>
   </div>
 </main>
@@ -83,14 +82,53 @@
 const inputBox = document.getElementById('inputBox');
 const charCount = document.getElementById('charCount');
 const boxWrapper = document.getElementById('boxWrapper');
-const MAX_CHARS = 20000;
-let manualHeight = false;
+const MAX_CHARS = 50000;
+const DEFAULT_HEIGHT = '420px';
 
-function autosize() {
-  if (manualHeight) return;
-  inputBox.style.height = 'auto';
-  inputBox.style.height = inputBox.scrollHeight + 'px';
+function updateCount() {
+  let len = inputBox.value.length;
+  if (len > MAX_CHARS) {
+    inputBox.value = inputBox.value.slice(0, MAX_CHARS);
+    len = MAX_CHARS;
+  }
+  charCount.textContent = len.toLocaleString() + ' of ' + MAX_CHARS.toLocaleString() + ' characters';
 }
+
+function stripHTMLText(raw, keepBreaks) {
+  const temp = document.createElement('div');
+  temp.innerHTML = raw;
+  if (keepBreaks) {
+    temp.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
+    temp.querySelectorAll('p, div, li, h1, h2, h3, h4, h5, h6, tr').forEach(el => {
+      el.insertAdjacentText('afterend', '\n');
+    });
+  }
+  let text = temp.textContent || temp.innerText || '';
+  return text.replace(/\n{3,}/g, '\n\n').replace(/[ \t]+\n/g, '\n').trim();
+}
+
+function saveContent() {
+  try { localStorage.setItem('textCleanerContent', inputBox.value); } catch(e) {}
+}
+
+// Auto-clean whatever was just pasted
+inputBox.addEventListener('paste', () => {
+  setTimeout(() => {
+    const keepBreaks = document.getElementById('keepBreaks').checked;
+    inputBox.value = stripHTMLText(inputBox.value, keepBreaks);
+    updateCount();
+    saveContent();
+  }, 0);
+});
+
+inputBox.addEventListener('input', () => {
+  updateCount();
+  saveContent();
+});
+
+document.getElementById('keepBreaks').addEventListener('change', (e) => {
+  try { localStorage.setItem('textCleanerKeepBreaks', e.target.checked); } catch(e) {}
+});
 
 // Width drag
 (function() {
@@ -124,43 +162,35 @@ function autosize() {
     startY = e.clientY;
     startHeight = inputBox.offsetHeight;
     document.body.style.userSelect = 'none';
-    manualHeight = true;
     function onMove(e) {
       const newHeight = startHeight + (e.clientY - startY);
-      inputBox.style.height = Math.max(100, newHeight) + 'px';
+      inputBox.style.height = Math.max(150, newHeight) + 'px';
     }
     function onUp() {
       document.removeEventListener('mousemove', onMove);
       document.removeEventListener('mouseup', onUp);
       document.body.style.userSelect = '';
-      try {
-        localStorage.setItem('textCleanerHeight', inputBox.style.height);
-        localStorage.setItem('textCleanerManualHeight', 'true');
-      } catch(e) {}
+      try { localStorage.setItem('textCleanerHeight', inputBox.style.height); } catch(e) {}
     }
     document.addEventListener('mousemove', onMove);
     document.addEventListener('mouseup', onUp);
   });
 })();
 
-function updateCount() {
-  let len = inputBox.value.length;
-  if (len > MAX_CHARS) {
-    inputBox.value = inputBox.value.slice(0, MAX_CHARS);
-    len = MAX_CHARS;
-  }
-  charCount.textContent = len.toLocaleString() + ' of ' + MAX_CHARS.toLocaleString() + ' characters';
+function resetLayout() {
+  boxWrapper.style.width = '100%';
+  inputBox.style.height = DEFAULT_HEIGHT;
+  try {
+    localStorage.removeItem('textCleanerWidth');
+    localStorage.removeItem('textCleanerHeight');
+  } catch(e) {}
 }
 
-inputBox.addEventListener('input', () => {
+function clearBox() {
+  inputBox.value = '';
   updateCount();
-  autosize();
-  try { localStorage.setItem('textCleanerContent', inputBox.value); } catch(e) {}
-});
-
-document.getElementById('keepBreaks').addEventListener('change', (e) => {
-  try { localStorage.setItem('textCleanerKeepBreaks', e.target.checked); } catch(e) {}
-});
+  try { localStorage.removeItem('textCleanerContent'); } catch(e) {}
+}
 
 (function restore() {
   try {
@@ -170,46 +200,11 @@ document.getElementById('keepBreaks').addEventListener('change', (e) => {
     if (savedBreaks === 'true') document.getElementById('keepBreaks').checked = true;
     const savedWidth = localStorage.getItem('textCleanerWidth');
     if (savedWidth) boxWrapper.style.width = savedWidth;
-    const savedManual = localStorage.getItem('textCleanerManualHeight');
     const savedHeight = localStorage.getItem('textCleanerHeight');
-    if (savedManual === 'true' && savedHeight) {
-      manualHeight = true;
-      inputBox.style.height = savedHeight;
-    }
+    if (savedHeight) inputBox.style.height = savedHeight;
   } catch(e) {}
   updateCount();
-  autosize();
 })();
-
-function stripHTML() {
-  const keepBreaks = document.getElementById('keepBreaks').checked;
-  let raw = inputBox.value;
-
-  const temp = document.createElement('div');
-  temp.innerHTML = raw;
-
-  if (keepBreaks) {
-    temp.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
-    temp.querySelectorAll('p, div, li, h1, h2, h3, h4, h5, h6, tr').forEach(el => {
-      el.insertAdjacentText('afterend', '\n');
-    });
-  }
-
-  let text = temp.textContent || temp.innerText || '';
-  text = text.replace(/\n{3,}/g, '\n\n').replace(/[ \t]+\n/g, '\n').trim();
-
-  inputBox.value = text;
-  updateCount();
-  autosize();
-  try { localStorage.setItem('textCleanerContent', inputBox.value); } catch(e) {}
-}
-
-function clearBox() {
-  inputBox.value = '';
-  updateCount();
-  autosize();
-  try { localStorage.removeItem('textCleanerContent'); } catch(e) {}
-}
 </script>
 
 </body>
