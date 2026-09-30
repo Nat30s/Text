@@ -46,8 +46,8 @@
     <span style="font-weight:700; font-size:18px; color:#111827;">Text Cleaner</span>
   </div>
   <div style="display:flex; gap:8px;">
-    <button class="topbtn" onclick="resetLayout()">Reset size</button>
-    <button class="topbtn" onclick="clearBox()">Clear</button>
+    <button class="topbtn" onclick="resetLayout()">Reset Size</button>
+    <button class="topbtn" onclick="clearBox()">Clear Text</button>
   </div>
 </nav>
 
@@ -111,24 +111,14 @@ function saveContent() {
   try { localStorage.setItem('textCleanerContent', inputBox.value); } catch(e) {}
 }
 
-// Auto-clean only the pasted chunk, leaving existing content untouched
-inputBox.addEventListener('paste', (e) => {
-  e.preventDefault();
-  const keepBreaks = document.getElementById('keepBreaks').checked;
-  const clipboardText = (e.clipboardData || window.clipboardData).getData('text');
-  const cleaned = stripHTMLText(clipboardText, keepBreaks);
-
-  const start = inputBox.selectionStart;
-  const end = inputBox.selectionEnd;
-  const current = inputBox.value;
-
-  inputBox.value = current.slice(0, start) + cleaned + current.slice(end);
-
-  const newCursor = start + cleaned.length;
-  inputBox.setSelectionRange(newCursor, newCursor);
-
-  updateCount();
-  saveContent();
+// Auto-clean whatever was just pasted
+inputBox.addEventListener('paste', () => {
+  setTimeout(() => {
+    const keepBreaks = document.getElementById('keepBreaks').checked;
+    inputBox.value = stripHTMLText(inputBox.value, keepBreaks);
+    updateCount();
+    saveContent();
+  }, 0);
 });
 
 inputBox.addEventListener('input', () => {
